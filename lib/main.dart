@@ -20,6 +20,17 @@ class App extends StatelessWidget {
   }
 }
 
+class OrderItemDIsplay extends StatelessWidget {
+  final String itemType;
+  final int quantity;
+  const OrderItemDIsplay(this.itemType, this.quantity, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text('This is a placeholder for OrderItemDisplay');
+  }
+}
+
 // class MyApp extends StatelessWidget {
 //   const MyApp({super.key});
 
