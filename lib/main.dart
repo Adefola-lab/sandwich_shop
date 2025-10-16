@@ -15,11 +15,19 @@ class App extends StatelessWidget {
           appBar: AppBar(title: const Text("Sandwich Counter")),
           body: Center(
             child: Container(
-              width: 500,
-              height: 250,
+              width: 1500,
+              height: 750,
               color: Colors.blue,
-              alignment: Alignment.center,
-              child: const OrderItemDIsplay(5, 'Footlong')
+              alignment: Alignment.topCenter,
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  OrderItemDIsplay(3, 'BLT'),
+                  OrderItemDIsplay(5, 'Club'),
+                  OrderItemDIsplay(2, 'Veggie'),
+                ],
+              )
             ),
           ),
         ));
