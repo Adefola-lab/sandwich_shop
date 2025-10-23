@@ -17,7 +17,7 @@ class App extends StatelessWidget {
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const OrderItemDIsplay(5, "Footlong"),
+              const OrderItemDisplay(5, "Footlong"),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -37,10 +37,10 @@ class App extends StatelessWidget {
   }
 }
 
-class OrderItemDIsplay extends StatelessWidget {
+class OrderItemDisplay extends StatelessWidget {
   final String itemType;
   final int quantity;
-  const OrderItemDIsplay(this.quantity, this.itemType, {super.key});
+  const OrderItemDisplay(this.quantity, this.itemType, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,35 @@ class _OrderScreenState extends State<OrderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Sandwich Counter'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            OrderItemDisplay(
+              _quantity,
+              'Footlong',
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () => print('Add button pressed!'),
+                  child: const Text('Add'),
+                ),
+                ElevatedButton(
+                  onPressed: () => print('Remove button pressed!'),
+                  child: const Text('Remove'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 // class MyApp extends StatelessWidget {
