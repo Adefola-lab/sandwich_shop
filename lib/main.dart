@@ -40,6 +40,16 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+  // Add these new fields
+  final List<String> _sandwichTypes = [
+    'Footlong',
+    'Ham',
+    'Turkey',
+    'Veggie',
+    'Tuna',
+  ];
+  String _selectedSandwichType = 'Footlong'; // default value
+
   int _quantity = 0;
   String _note = '';
   final TextEditingController _noteController = TextEditingController();
@@ -72,9 +82,31 @@ class _OrderScreenState extends State<OrderScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            // Add dropdown before OrderItemDisplay
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+              child: DropdownButton<String>(
+                value: _selectedSandwichType,
+                isExpanded: true,
+                items: _sandwichTypes.map((String type) {
+                  return DropdownMenuItem<String>(
+                    value: type,
+                    child: Text(type),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    setState(() {
+                      _selectedSandwichType = newValue;
+                    });
+                  }
+                },
+              ),
+            ),
             OrderItemDisplay(
               _quantity,
-              'Footlong',
+              _selectedSandwichType, // Use selected type instead of hardcoded 'Footlong'
               note: _note,
             ),
             Padding(
