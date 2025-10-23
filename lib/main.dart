@@ -19,7 +19,8 @@ class App extends StatelessWidget {
 class OrderItemDisplay extends StatelessWidget {
   final String itemType;
   final int quantity;
-  const OrderItemDisplay(this.quantity, this.itemType, {super.key});
+  final String? note;
+  const OrderItemDisplay(this.quantity, this.itemType, {super.key, this.note});
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +41,8 @@ class OrderScreen extends StatefulWidget {
 
 class _OrderScreenState extends State<OrderScreen> {
   int _quantity = 0;
+  String _note = '';
+  final TextEditingController _noteController = TextEditingController();
 
   void _increaseQuantity() {
     if (_quantity < widget.maxQuantity) {
@@ -51,6 +54,12 @@ class _OrderScreenState extends State<OrderScreen> {
     if (_quantity > 0) {
       setState(() => _quantity--);
     }
+  }
+
+  @override
+  void dispose() {
+    _noteController.dispose();
+    super.dispose();
   }
 
   @override
@@ -66,6 +75,18 @@ class _OrderScreenState extends State<OrderScreen> {
             OrderItemDisplay(
               _quantity,
               'Footlong',
+              note: _note,
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+              child: TextField(
+                controller: _noteController,
+                decoration: const InputDecoration(
+                  labelText: 'Add a note (e.g. "no onions")',
+                ),
+                onChanged: (value) => setState(() => _note = value),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
