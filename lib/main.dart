@@ -28,6 +28,40 @@ class OrderItemDisplay extends StatelessWidget {
   }
 }
 
+// new reusable button widget
+class StyledButton extends StatelessWidget {
+  final String text;
+  final VoidCallback? onPressed;
+  final IconData icon;
+  final Color backgroundColor;
+  final Color foregroundColor;
+
+  const StyledButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    required this.icon,
+    this.backgroundColor = Colors.blue,
+    this.foregroundColor = Colors.white,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton.icon(
+      onPressed: onPressed,
+      icon: Icon(icon),
+      label: Text(
+        text,
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: backgroundColor,
+        foregroundColor: foregroundColor,
+      ),
+    );
+  }
+}
+
 class OrderScreen extends StatefulWidget {
   final int maxQuantity;
 
@@ -43,10 +77,7 @@ class _OrderScreenState extends State<OrderScreen> {
   // Add these new fields
   final List<String> _sandwichTypes = [
     'Footlong',
-    'Ham',
-    'Turkey',
-    'Veggie',
-    'Tuna',
+    'Six-Inch',
   ];
   String _selectedSandwichType = 'Footlong'; // default value
 
@@ -120,42 +151,33 @@ class _OrderScreenState extends State<OrderScreen> {
                 onChanged: (value) => setState(() => _note = value),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: _quantity >= widget.maxQuantity
-                      ? null
-                      : _increaseQuantity,
-                  icon: const Icon(Icons.arrow_circle_up_outlined),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                  ),
-                  label: const Text(
-                    'Add',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+            // replaced Row with StyledButton instances and spaceBetween alignment
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween, // opposing sides
+                  children: [
+                    StyledButton(
+                      text: 'Add',
+                      onPressed: _quantity >= widget.maxQuantity
+                          ? null
+                          : _increaseQuantity,
+                      icon: Icons.arrow_circle_up_outlined,
+                      backgroundColor: Colors.green,
                     ),
-                  ),
-                ),
-                ElevatedButton.icon(
-                  onPressed: _quantity <= 0 ? null : _decreaseQuantity,
-                  icon: const Icon(Icons.arrow_circle_down_outlined),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                  ),
-                  label: const Text(
-                    'Remove',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    StyledButton(
+                      text: 'Remove',
+                      onPressed: _quantity <= 0 ? null : _decreaseQuantity,
+                      icon: Icons.arrow_circle_down_outlined,
+                      backgroundColor: Colors.red,
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ],
         ),
@@ -243,30 +265,6 @@ class _OrderScreenState extends State<OrderScreen> {
 //       ),
 //       body: const Center(
 //         // Center is a layout widget. It takes a single child and positions it
-//         // in the middle of the parent.
-//         child: Column(
-//           // Column is also a layout widget. It takes a list of children and
-//           // arranges them vertically. By default, it sizes itself to fit its
-//           // children horizontally, and tries to be as tall as its parent.
-//           //
-//           // Column has various properties to control how it sizes itself and
-//           // how it positions its children. Here we use mainAxisAlignment to
-//           // center the children vertically; the main axis here is the vertical
-//           // axis because Columns are vertical (the cross axis would be
-//           // horizontal).
-//           //
-//           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-//           // action in the IDE, or press "p" in the console), to see the
-//           // wireframe for each widget.
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[Text('Welcome to my sandwich shop!')],
-//         ),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: _incrementCounter,
-//         tooltip: 'Increment',
-//         child: const Icon(Icons.add),
-//       ), // This trailing comma makes auto-formatting nicer for build methods.
-//     );
+//
 //   }
 // }
