@@ -140,6 +140,7 @@ void main() {
         breadType: BreadType.white,
         orderNote: 'No notes added.',
         isToasted: true,
+        totalPrice: 0.0,
       );
       const testApp = MaterialApp(
         home: Scaffold(body: widgetToBeTested),
@@ -157,6 +158,7 @@ void main() {
         breadType: BreadType.white,
         orderNote: 'No notes added.',
         isToasted: true,
+        totalPrice: 33.0,
       );
       const testApp = MaterialApp(
         home: Scaffold(body: widgetToBeTested),
@@ -175,6 +177,7 @@ void main() {
         breadType: BreadType.wheat,
         orderNote: 'No pickles',
         isToasted: true,
+        totalPrice: 14.0,
       );
       const testApp = MaterialApp(
         home: Scaffold(body: widgetToBeTested),
@@ -192,6 +195,7 @@ void main() {
         breadType: BreadType.wholemeal,
         orderNote: 'Lots of lettuce',
         isToasted: true,
+        totalPrice: 11.0,
       );
       const testApp = MaterialApp(
         home: Scaffold(body: widgetToBeTested),

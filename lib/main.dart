@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
 import 'package:sandwich_shop/repositories/order_repository.dart';
+import 'package:sandwich_shop/repositories/price_repository.dart';
 
 enum BreadType { white, wheat, wholemeal }
 
@@ -33,6 +34,7 @@ class OrderScreen extends StatefulWidget {
 
 class _OrderScreenState extends State<OrderScreen> {
   late final OrderRepository _orderRepository;
+  late final PriceRepository _priceRepository;
   final TextEditingController _notesController = TextEditingController();
   bool _isFootlong = true;
   bool _isToasted = false;
@@ -42,6 +44,7 @@ class _OrderScreenState extends State<OrderScreen> {
   void initState() {
     super.initState();
     _orderRepository = OrderRepository(maxQuantity: widget.maxQuantity);
+    _priceRepository = PriceRepository();
     _notesController.addListener(() {
       setState(() {});
     });
@@ -103,6 +106,11 @@ class _OrderScreenState extends State<OrderScreen> {
       noteForDisplay = _notesController.text;
     }
 
+    final double totalPrice = _priceRepository.calculateTotalPrice(
+      sandwichType,
+      _orderRepository.quantity,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -120,6 +128,7 @@ class _OrderScreenState extends State<OrderScreen> {
               breadType: _selectedBreadType,
               orderNote: noteForDisplay,
               isToasted: _isToasted,
+              totalPrice: totalPrice,
             ),
             const SizedBox(height: 20),
             Row(
@@ -147,7 +156,6 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
                 const Text('toasted', style: normalText),
               ],
-
             ),
             const SizedBox(height: 10),
             DropdownMenu<BreadType>(
@@ -235,7 +243,7 @@ class OrderItemDisplay extends StatelessWidget {
   final BreadType breadType;
   final String orderNote;
   final bool isToasted;
-
+  final double totalPrice;
 
   const OrderItemDisplay({
     super.key,
@@ -244,13 +252,14 @@ class OrderItemDisplay extends StatelessWidget {
     required this.breadType,
     required this.orderNote,
     required this.isToasted,
+    required this.totalPrice,
   });
 
   @override
   Widget build(BuildContext context) {
     String toastedText = isToasted ? 'toasted' : 'untoasted';
     String displayText =
-        '$quantity ${breadType.name} $toastedText $itemType sandwich(es): ${'🥪' * quantity}';
+        '$quantity ${breadType.name} $toastedText $itemType sandwich(es): ${'🥪' * quantity}. Total price: £$totalPrice';
 
     return Column(
       children: [
