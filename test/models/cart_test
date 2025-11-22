@@ -1,0 +1,90 @@
+import 'package:test/test.dart';
+import 'package:sandwich_shop/models/cart.dart';
+
+void main() {
+  late Cart cart;
+  late MenuItem bread;
+  late MenuItem cheese;
+  late MenuItem ham;
+
+  setUp(() {
+    cart = Cart();
+    bread = MenuItem(id: 'bread', name: 'Bread', price: 2.5);
+    cheese = MenuItem(id: 'cheese', name: 'Cheese', price: 1.75);
+    ham = MenuItem(id: 'ham', name: 'Ham', price: 3.25);
+  });
+
+  test('starts empty', () {
+    expect(cart.totalItems, equals(0));
+    expect(cart.totalPrice, equals(0));
+    expect(cart.items, isEmpty);
+  });
+
+  test('adding an item increases item count and total price', () {
+    cart.add(bread);
+    expect(cart.items.containsKey('bread'), isTrue);
+    final qty = cart.items['bread']?.quantity ?? 0;
+    expect(qty, equals(1));
+    expect(cart.totalItems, equals(1));
+    expect(cart.totalPrice, closeTo(2.5, 1e-9));
+  });
+
+  test('adding the same item increments its quantity and updates total price', () {
+    cart.add(cheese);
+    cart.add(cheese, 2); // now total quantity should be 3
+    final qty = cart.items['cheese']?.quantity ?? 0;
+    expect(qty, equals(3));
+    expect(cart.totalItems, equals(3));
+    expect(cart.totalPrice, closeTo(1.75 * 3, 1e-9));
+  });
+
+  test('removing an item removes it from the cart and updates totals', () {
+    cart.add(bread);
+    cart.add(cheese, 2);
+    expect(cart.items.length, equals(2));
+    cart.remove('bread');
+    expect(cart.items.containsKey('bread'), isFalse);
+    expect(cart.items.length, equals(1));
+    expect(cart.totalItems, equals(2)); // only cheese x2 remains
+    expect(cart.totalPrice, closeTo(1.75 * 2, 1e-9));
+  });
+
+  test('updateQuantity changes quantity and recalculates total; zero removes item', () {
+    cart.add(ham, 1);
+    cart.updateQuantity('ham', 5);
+    expect(cart.items['ham']?.quantity, equals(5));
+    expect(cart.totalItems, equals(5));
+    expect(cart.totalPrice, closeTo(3.25 * 5, 1e-9));
+
+    cart.updateQuantity('ham', 0);
+    expect(cart.items.containsKey('ham'), isFalse);
+    expect(cart.totalItems, equals(0));
+    expect(cart.totalPrice, equals(0));
+  });
+
+  test('clear empties the cart', () {
+    cart.add(bread);
+    cart.add(cheese, 2);
+    expect(cart.items.isNotEmpty, isTrue);
+    cart.clear();
+    expect(cart.items, isEmpty);
+    expect(cart.totalItems, equals(0));
+    expect(cart.totalPrice, equals(0));
+  });
+
+  test('adding negative quantity throws ArgumentError', () {
+    expect(() => cart.add(bread, -1), throwsArgumentError);
+  });
+
+  test('updating to negative quantity throws ArgumentError', () {
+    cart.add(cheese);
+    expect(() => cart.updateQuantity('cheese', -3), throwsArgumentError);
+  });
+
+  test('removing a non-existent id is a no-op', () {
+    cart.add(bread);
+    cart.remove('unknown-id'); // should not throw
+    expect(cart.items.containsKey('bread'), isTrue);
+    expect(cart.totalItems, equals(1));
+  });
+}
