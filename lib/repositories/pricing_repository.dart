@@ -1,4 +1,4 @@
-class PriceRepository {
+class PricingRepository {
   final Map<String, double> _priceTable = {
     'six-inch': 7.00,
     'footlong': 11.00,

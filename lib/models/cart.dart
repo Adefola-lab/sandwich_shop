@@ -5,7 +5,8 @@ class Cart {
   final PricingRepository pricingRepository;
   final Map<String, _CartItem> _items = {};
 
-  Cart({required this.pricingRepository});
+  Cart({PricingRepository? pricingRepository})
+      : pricingRepository = pricingRepository ?? PricingRepository();
 
   // Add a sandwich to the cart. If it already exists, increase quantity.
   void addSandwich(Sandwich sandwich, [int quantity = 1]) {
@@ -49,7 +50,7 @@ class Cart {
   double get totalPrice => _items.values.fold(
       0.0,
       (sum, it) =>
-          sum + pricingRepository.calculatePrice(it.sandwich, it.quantity));
+          sum + pricingRepository.calculateTotalPrice(_idFor(it.sandwich), it.quantity));
 
   // List of cart items (read-only copy).
   List<CartEntry> get items =>
