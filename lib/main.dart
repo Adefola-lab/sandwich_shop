@@ -75,6 +75,27 @@ class _OrderScreenState extends State<OrderScreen> {
           'Added $_quantity $sizeText ${sandwich.name} sandwich(es) on ${_selectedBreadType.name} bread to cart';
 
       debugPrint(confirmationMessage);
+
+      // changed: show a SnackBar with an Undo action that removes the last added sandwich entry
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(confirmationMessage),
+          duration: const Duration(seconds: 3),
+          action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {
+              setState(() {
+                final map = _cart.toMap();
+                if (map.isNotEmpty) {
+                  // remove the most recently added sandwich entry (insertion order preserved)
+                  final lastId = map.keys.last;
+                  _cart.removeSandwichById(lastId);
+                }
+              });
+            },
+          ),
+        ),
+      );
     }
   }
 
