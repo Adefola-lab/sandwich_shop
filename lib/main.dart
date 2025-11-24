@@ -260,6 +260,22 @@ class _OrderScreenState extends State<OrderScreen> {
                 ],
               ),
               const SizedBox(height: 20),
+
+              // simple, permanent cart summary that updates because we call setState
+              // whenever the cart changes (e.g. in _addToCart and the SnackBar Undo).
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                color: Colors.grey.shade200,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Cart: ${_cart.totalItems} item(s)', style: normalText),
+                    Text('\$${_cart.totalPrice.toStringAsFixed(2)}', style: heading1),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+
               StyledButton(
                 onPressed: _getAddToCartCallback(),
                 icon: Icons.add_shopping_cart,

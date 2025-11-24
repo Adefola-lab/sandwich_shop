@@ -48,9 +48,7 @@ class Cart {
 
   // Calculate total price using PricingRepository as the single source of truth.
   double get totalPrice => _items.values.fold(
-      0.0,
-      (sum, it) =>
-          sum + pricingRepository.calculateTotalPrice(_idFor(it.sandwich), it.quantity));
+    0.0, (sum, it) => sum + pricingRepository.calculatePrice(it.sandwich, it.quantity));
 
   // List of cart items (read-only copy).
   List<CartEntry> get items =>

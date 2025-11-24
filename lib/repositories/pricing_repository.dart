@@ -1,3 +1,6 @@
+import 'package:sandwich_shop/models/sandwich.dart';
+
+
 class PricingRepository {
   final Map<String, double> _priceTable = {
     'six-inch': 7.00,
@@ -15,4 +18,12 @@ class PricingRepository {
     final total = pricePerSandwich! * quantity;
     return total;
   }
+
+  // accept Sandwich directly (preferred)
+  double calculatePrice(Sandwich sandwich, int quantity) {
+    if (quantity <= 0) return 0.0;
+    final sizeKey = sandwich.isFootlong ? 'footlong' : 'six-inch';
+    return calculateTotalPrice(sizeKey, quantity);
+  }
 }
+
