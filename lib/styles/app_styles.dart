@@ -138,97 +138,97 @@ TextStyle textStyleWithColor(TextStyle baseStyle, Color color) {
 
 /// App-wide theme configuration
 ThemeData get appTheme => ThemeData(
-  primaryColor: primaryColor,
-  primaryColorLight: primaryColorLight,
-  colorScheme: ColorScheme.fromSeed(
-    seedColor: primaryColor,
-    secondary: accentColor,
-  ),
-  scaffoldBackgroundColor: Colors.white,
-  appBarTheme: const AppBarTheme(
-    backgroundColor: primaryColor,
-    foregroundColor: Colors.white,
-    elevation: 2,
-    centerTitle: false,
-    titleTextStyle: TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.w600,
-      color: Colors.white,
-    ),
-  ),
-  drawerTheme: const DrawerThemeData(
-    backgroundColor: Colors.white,
-    elevation: 16,
-  ),
-  listTileTheme: const ListTileThemeData(
-    contentPadding: EdgeInsets.symmetric(
-      horizontal: standardPadding,
-      vertical: smallPadding,
-    ),
-    iconColor: Colors.black54,
-    textColor: Colors.black87,
-    selectedColor: primaryColor,
-    selectedTileColor: selectedMenuItemBackground,
-  ),
-  navigationRailTheme: const NavigationRailThemeData(
-    backgroundColor: navigationRailBackground,
-    selectedIconTheme: IconThemeData(
-      color: primaryColor,
-      size: menuIconSize,
-    ),
-    unselectedIconTheme: IconThemeData(
-      color: Colors.black54,
-      size: menuIconSize,
-    ),
-    selectedLabelTextStyle: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-      color: primaryColor,
-    ),
-    unselectedLabelTextStyle: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.normal,
-      color: Colors.black54,
-    ),
-  ),
-  snackBarTheme: const SnackBarThemeData(
-    backgroundColor: Colors.black87,
-    contentTextStyle: TextStyle(
-      fontSize: 14,
-      color: Colors.white,
-    ),
-    behavior: SnackBarBehavior.floating,
-  ),
-  elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
-      backgroundColor: primaryColor,
-      foregroundColor: Colors.white,
-      padding: const EdgeInsets.symmetric(
-        horizontal: largePadding,
-        vertical: standardPadding,
+      primaryColor: primaryColor,
+      primaryColorLight: primaryColorLight,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: primaryColor,
+        secondary: accentColor,
       ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius),
+      scaffoldBackgroundColor: Colors.white,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+        elevation: 2,
+        centerTitle: false,
+        titleTextStyle: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
       ),
-      elevation: 2,
-    ),
-  ),
-  textButtonTheme: TextButtonThemeData(
-    style: TextButton.styleFrom(
-      foregroundColor: primaryColor,
-      padding: const EdgeInsets.symmetric(
-        horizontal: standardPadding,
-        vertical: smallPadding,
+      drawerTheme: const DrawerThemeData(
+        backgroundColor: Colors.white,
+        elevation: 16,
       ),
-    ),
-  ),
-  inputDecorationTheme: InputDecorationTheme(
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(borderRadius),
-    ),
-    contentPadding: const EdgeInsets.symmetric(
-      horizontal: standardPadding,
-      vertical: standardPadding,
-    ),
-  ),
-);
+      listTileTheme: const ListTileThemeData(
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: standardPadding,
+          vertical: smallPadding,
+        ),
+        iconColor: Colors.black54,
+        textColor: Colors.black87,
+        selectedColor: primaryColor,
+        selectedTileColor: selectedMenuItemBackground,
+      ),
+      navigationRailTheme: const NavigationRailThemeData(
+        backgroundColor: navigationRailBackground,
+        selectedIconTheme: IconThemeData(
+          color: primaryColor,
+          size: menuIconSize,
+        ),
+        unselectedIconTheme: IconThemeData(
+          color: Colors.black54,
+          size: menuIconSize,
+        ),
+        selectedLabelTextStyle: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: primaryColor,
+        ),
+        unselectedLabelTextStyle: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+          color: Colors.black54,
+        ),
+      ),
+      snackBarTheme: const SnackBarThemeData(
+        backgroundColor: Colors.black87,
+        contentTextStyle: TextStyle(
+          fontSize: 14,
+          color: Colors.white,
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primaryColor,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(
+            horizontal: largePadding,
+            vertical: standardPadding,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(borderRadius),
+          ),
+          elevation: 2,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: primaryColor,
+          padding: const EdgeInsets.symmetric(
+            horizontal: standardPadding,
+            vertical: smallPadding,
+          ),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: standardPadding,
+          vertical: standardPadding,
+        ),
+      ),
+    );
