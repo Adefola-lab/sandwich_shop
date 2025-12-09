@@ -138,3 +138,291 @@ I need to enhance the Cart Screen by adding interactive controls that allow user
 - For dialogs, use `showDialog()` with `AlertDialog` widgets and await the result
 - Remember that in the current implementation, the cart uses `Map<Sandwich, int>`, so each unique Sandwich object (even with identical properties) is a separate entry
 
+# Feature Implementation Request: Sign-Up/Sign-In Screen for Sandwich Shop App
+
+## Context
+I have a Flutter sandwich shop application with the following structure:
+- **Main entry point**: `lib/main.dart` - MaterialApp with routes
+- **Home screen**: `lib/views/order_screen.dart` - OrderScreen where users build and add sandwiches to cart
+- **Cart management**: `lib/models/cart.dart` - Cart model with items and pricing
+- **Existing screens**: OrderScreen, CartScreen, CheckoutScreen, AboutScreen
+- **Styling**: `lib/views/app_styles.dart` contains app-wide styling constants
+
+## Feature Request: User Authentication Screen
+
+### Overview
+Create a new sign-up/sign-in screen where users can enter their details. This is a UI-only implementation with no actual authentication or data persistence required at this stage.
+
+### Requirements
+
+#### 1. Create Authentication Screen (`lib/views/auth_screen.dart`)
+
+**Description**: A new screen that allows users to toggle between sign-up and sign-in modes.
+
+**UI Components Required**:
+- Screen title that changes based on mode ("Sign Up" or "Sign In")
+- Toggle mechanism to switch between sign-up and sign-in modes (e.g., tabs, segmented control, or toggle button)
+- Form fields with proper validation
+- Submit button that changes label based on mode ("Create Account" or "Sign In")
+- Visual feedback for form validation errors
+
+**Form Fields for Sign-Up Mode**:
+- Full Name (text input, required, minimum 2 characters)
+- Email (text input, required, valid email format)
+- Phone Number (text input, optional, valid phone format if provided)
+- Password (text input, required, minimum 8 characters, obscured)
+- Confirm Password (text input, required, must match password, obscured)
+
+**Form Fields for Sign-In Mode**:
+- Email (text input, required, valid email format)
+- Password (text input, required, obscured)
+
+**User Actions & Expected Behavior**:
+
+1. **When user taps toggle to switch modes**:
+   - Form should clear all fields
+   - Validation errors should be reset
+   - Screen title and button labels should update
+   - Smooth transition animation (optional but nice to have)
+
+2. **When user enters invalid data and taps submit**:
+   - Display validation error messages under each invalid field
+   - Error messages should be clear and specific (e.g., "Email format is invalid", "Password must be at least 8 characters")
+   - Form should not submit
+   - No navigation should occur
+
+3. **When user enters valid data and taps submit**:
+   - Show a success SnackBar with message: "Account created successfully! Welcome, [Name]" (sign-up) or "Welcome back, [Name]!" (sign-in)
+   - Navigate back to the previous screen (OrderScreen)
+   - For now, just use the entered name in the success message
+
+4. **When user taps back button or system back**:
+   - Return to OrderScreen without any changes
+   - Cart contents should remain intact
+
+**Styling Requirements**:
+- Use existing app styles from `app_styles.dart` for consistency
+- Follow Material Design guidelines
+- Ensure proper spacing and padding
+- Make form fields clearly visible and touchable
+- Use appropriate input types (email keyboard for email field, etc.)
+
+---
+
+#### 2. Add Navigation Link on Order Screen
+
+**Description**: Add a button/link at the bottom of the OrderScreen to navigate to the authentication screen.
+
+**Location**: At the bottom of the OrderScreen, after the cart summary text
+
+**UI Component**:
+- A TextButton or similar widget with text "Sign In / Create Account"
+- Should be clearly visible but not intrusive
+- Use a distinct color or styling to indicate it's a secondary action
+
+**User Action & Expected Behavior**:
+
+**When user taps the "Sign In / Create Account" button**:
+- Navigate to the AuthScreen
+- Use a standard push navigation (slide-in animation)
+- Order screen state should be preserved (cart contents, form fields, etc.)
+
+---
+
+#### 3. Update Main App Routes (Optional)
+
+**Description**: Add the AuthScreen to the app's named routes for easier navigation management.
+
+**Implementation**:
+- Add '/auth' route to the MaterialApp routes map in `main.dart`
+- This allows navigation using `Navigator.pushNamed(context, '/auth')`
+
+---
+
+## Technical Specifications
+
+### State Management
+- Use StatefulWidget for AuthScreen to manage form state and mode toggling
+- Use TextEditingController for each form field
+- Implement proper disposal of controllers in dispose() method
+
+### Form Validation
+- Use Form widget with GlobalKey<FormState>
+- Implement validator functions for each field
+- Validate on submit, not on every keystroke (unless you prefer real-time validation)
+
+### Validation Rules
+- **Full Name**: Required, minimum 2 characters, letters and spaces only
+- **Email**: Required, must match email regex pattern
+- **Phone**: Optional, but if provided must be valid format (e.g., 10+ digits)
+- **Password**: Required, minimum 8 characters, should contain at least one letter and one number
+- **Confirm Password**: Required, must exactly match password field
+
+### No Data Persistence Required
+- Do not save user data to SharedPreferences, databases, or files
+- Do not implement actual authentication logic
+- Just validate input and show success messages
+- This is purely a UI implementation
+
+---
+
+## Deliverables
+
+1. New file: `lib/views/auth_screen.dart` with complete implementation
+2. Modified file: `lib/views/order_screen.dart` with navigation link added
+3. Modified file: `lib/main.dart` with route added (if using named routes)
+
+---
+
+## Example User Flow
+
+1. User opens app and sees OrderScreen (home)
+2. User scrolls to bottom and taps "Sign In / Create Account"
+3. AuthScreen opens in Sign-In mode by default
+4. User taps toggle to switch to Sign-Up mode
+5. User fills in name, email, phone, password, confirm password
+6. User taps "Create Account" button
+7. If validation fails: error messages appear under invalid fields
+8. If validation succeeds: success SnackBar appears, user returns to OrderScreen
+9. Cart contents are unchanged
+
+---
+
+## Additional Notes
+
+- Ensure keyboard doesn't overlap form fields (use SingleChildScrollView)
+- Add appropriate focus behavior (tap outside to dismiss keyboard)
+- Use obscureText for password fields
+- Consider adding icons to form fields for better UX
+- Ensure screen works on different device sizes
+- Follow existing code style and conventions in the project
+
+# Feature Request: App-Wide Navigation Drawer with Responsive Design
+
+## Context
+I have a Flutter sandwich shop application with the following structure:
+- **Main entry point**: `lib/main.dart` - MaterialApp with basic routes
+- **Screens**: 
+  - `lib/views/order_screen.dart` - OrderScreen (home) where users build sandwiches
+  - `lib/views/cart_screen.dart` - CartScreen for viewing/modifying cart
+  - `lib/views/checkout_screen.dart` - CheckoutScreen for payment processing
+  - `lib/views/auth_screen.dart` - AuthScreen for sign-up/sign-in
+  - `lib/views/about_screen.dart` - AboutScreen with business information
+- **Current Navigation**: 
+  - Each screen has its own AppBar
+  - Navigation is done via `Navigator.push()` and `Navigator.pop()`
+  - No centralized navigation menu exists
+- **Styling**: `lib/views/app_styles.dart` contains app-wide styling constants (normalText, heading1, heading2)
+
+## Feature Request: Navigation Drawer with Responsive Behavior
+
+### Overview
+Implement a reusable Navigation Drawer that provides easy access to all app screens from any location in the app. The drawer should adapt to different screen sizes (responsive design), showing as a permanent sidebar on larger screens and as a traditional slide-in drawer on smaller screens.
+
+---
+
+## Part 1: Create Reusable Navigation Drawer Widget
+
+### Objective
+Create a custom drawer widget that can be used across all screens without code duplication.
+
+### Requirements
+
+#### 1. Create App Drawer Widget (`lib/views/app_drawer.dart`)
+
+**Description**: A new reusable StatelessWidget that provides consistent navigation options across all screens.
+
+**Drawer Header Content**:
+- App logo or icon (use `Icons.storefront` or similar sandwich-related icon)
+- App title: "Sandwich Shop"
+- Optional: Subtitle with tagline (e.g., "Fresh & Delicious")
+- Background color or gradient for visual appeal
+
+**Drawer Menu Items** (in order):
+1. **Home** - Navigates to OrderScreen
+   - Icon: `Icons.home` or `Icons.restaurant_menu`
+   - Label: "Home"
+   
+2. **My Cart** - Navigates to CartScreen
+   - Icon: `Icons.shopping_cart`
+   - Label: "My Cart"
+   - Badge: Show cart item count if cart is not empty (optional but recommended)
+   
+3. **Sign In / Account** - Navigates to AuthScreen
+   - Icon: `Icons.person` or `Icons.account_circle`
+   - Label: "Account"
+   
+4. **About Us** - Navigates to AboutScreen
+   - Icon: `Icons.info` or `Icons.info_outline`
+   - Label: "About Us"
+
+**Constructor Parameters**:
+- `cart` (Cart) - Required to pass cart data for navigation and badge display
+- `currentRoute` (String) - Optional parameter to highlight the current screen in the drawer
+
+**User Actions & Expected Behavior**:
+
+1. **When user taps "Home" menu item**:
+   - If already on OrderScreen: Close drawer, no navigation
+   - If on another screen: Navigate to OrderScreen using `Navigator.pushAndRemoveUntil()` to clear the navigation stack
+   - Close the drawer automatically
+
+2. **When user taps "My Cart" menu item**:
+   - If cart is empty: Show a SnackBar message "Your cart is empty" and don't navigate
+   - If cart has items: Navigate to CartScreen using `Navigator.push()`
+   - Pass the `cart` object to CartScreen
+   - Close the drawer automatically
+
+3. **When user taps "Account" menu item**:
+   - Navigate to AuthScreen using `Navigator.push()`
+   - Close the drawer automatically
+
+4. **When user taps "About Us" menu item**:
+   - Navigate to AboutScreen using `Navigator.pushNamed(context, '/about')`
+   - Close the drawer automatically
+
+5. **When user taps outside the drawer or on the back button**:
+   - Drawer closes with slide-out animation
+   - User remains on current screen
+
+**Styling Requirements**:
+- Use `DrawerHeader` widget for the header section
+- Use `ListTile` widgets for each menu item
+- Apply consistent padding and spacing
+- Highlight the current route with a different background color or text style
+- Use Material Design icons
+- Ensure text is readable with proper contrast
+- Apply colors from your app theme or define new constants in `app_styles.dart`
+
+**Visual Indication**:
+- Show a visual indicator (e.g., different background color, accent color) for the currently active menu item
+- Use `ListTile`'s `selected` property to highlight the active route
+
+---
+
+#### 2. Update All Screen Scaffolds to Include Drawer
+
+**Description**: Modify each screen to include the new AppDrawer in their Scaffold's `drawer` property.
+
+**Screens to Modify**:
+- `lib/views/order_screen.dart`
+- `lib/views/cart_screen.dart`
+- `lib/views/checkout_screen.dart`
+- `lib/views/auth_screen.dart`
+- `lib/views/about_screen.dart`
+
+**Implementation for Each Screen**:
+```dart
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Screen Title'),
+    ),
+    drawer: AppDrawer(
+      cart: _cart, // or widget.cart depending on screen
+      currentRoute: '/routeName', // e.g., '/home', '/cart', '/auth', '/about'
+    ),
+    body: // existing body content
+  );
+}

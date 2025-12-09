@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:sandwich_shop/styles/app_styles.dart';
 import 'package:sandwich_shop/views/order_screen.dart';
+import 'package:sandwich_shop/views/about_screen.dart';
 
 void main() {
-  runApp(const App());
+  runApp(const SandwichShopApp());
 }
 
-class App extends StatelessWidget {
-  const App({super.key});
+class SandwichShopApp extends StatelessWidget {
+  const SandwichShopApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Sandwich Shop App',
-      home: OrderScreen(maxQuantity: 5),
+    return MaterialApp(
+      title: 'Sandwich Shop',
+      theme: appTheme,
+      home: const OrderScreen(),
+      routes: {
+        '/about': (context) => const AboutScreen(),
+      },
     );
   }
 }

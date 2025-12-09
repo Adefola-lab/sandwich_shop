@@ -3,6 +3,7 @@ import 'package:sandwich_shop/views/app_styles.dart';
 import 'package:sandwich_shop/models/cart.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
 import 'package:sandwich_shop/repositories/pricing_repository.dart';
+import 'package:sandwich_shop/views/responsive_layout.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final Cart cart;
@@ -28,7 +29,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final int timestamp = currentTime.millisecondsSinceEpoch;
     final String orderId = 'ORD$timestamp';
 
-    final Map orderConfirmation = {
+    final Map<String, dynamic> orderConfirmation = {
       'orderId': orderId,
       'totalAmount': widget.cart.totalPrice,
       'itemCount': widget.cart.countOfItems,
@@ -126,7 +127,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       );
     }
 
-    return Scaffold(
+    return ResponsiveScaffold(
       appBar: AppBar(
         title: const Text('Checkout', style: heading1),
       ),
@@ -136,6 +137,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           children: columnChildren,
         ),
       ),
+      cart: widget.cart,
+      currentRoute: '/checkout',
     );
   }
 }
