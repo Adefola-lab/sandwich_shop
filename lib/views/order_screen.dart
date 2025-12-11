@@ -4,6 +4,8 @@ import 'package:sandwich_shop/views/cart_screen.dart';
 import 'package:sandwich_shop/models/cart.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
 import 'package:sandwich_shop/views/profile_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:sandwich_shop/views/settings_screen.dart';
 
 class OrderScreen extends StatefulWidget {
   final int maxQuantity;
@@ -17,7 +19,6 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  final Cart _cart = Cart();
   final TextEditingController _notesController = TextEditingController();
 
   SandwichType _selectedSandwichType = SandwichType.veggieDelight;
@@ -77,9 +78,8 @@ class _OrderScreenState extends State<OrderScreen> {
         breadType: _selectedBreadType,
       );
 
-      setState(() {
-        _cart.add(sandwich, quantity: _quantity);
-      });
+      final Cart cart = Provider.of<Cart>(context, listen: false);
+      cart.add(sandwich, quantity: _quantity);
 
       String sizeText;
       if (_isFootlong) {
@@ -110,10 +110,18 @@ class _OrderScreenState extends State<OrderScreen> {
     Navigator.push(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => CartScreen(cart: _cart),
+        builder: (BuildContext context) => const CartScreen(),
       ),
     );
   }
+  void _navigateToSettings() {
+  Navigator.push(
+    context,
+    MaterialPageRoute<void>(
+      builder: (BuildContext context) => const SettingsScreen(),
+    ),
+  );
+}
 
   List<DropdownMenuEntry<SandwichType>> _buildSandwichTypeEntries() {
     List<DropdownMenuEntry<SandwichType>> entries = [];
@@ -161,10 +169,27 @@ class _OrderScreenState extends State<OrderScreen> {
             child: Image.asset('assets/images/logo.png'),
           ),
         ),
-        title: const Text(
+        title: Text(
           'Sandwich Counter',
           style: heading1,
         ),
+        actions: [
+          Consumer<Cart>(
+            builder: (context, cart, child) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.shopping_cart),
+                    const SizedBox(width: 4),
+                    Text('${cart.countOfItems}'),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -177,7 +202,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   _getCurrentImagePath(),
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
-                    return const Center(
+                    return Center(
                       child: Text(
                         'Image not found',
                         style: normalText,
@@ -203,12 +228,12 @@ class _OrderScreenState extends State<OrderScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Six-inch', style: normalText),
+                  Text('Six-inch', style: normalText),
                   Switch(
                     value: _isFootlong,
                     onChanged: (value) => setState(() => _isFootlong = value),
                   ),
-                  const Text('Footlong', style: normalText),
+                  Text('Footlong', style: normalText),
                 ],
               ),
               const SizedBox(height: 20),
@@ -228,7 +253,7 @@ class _OrderScreenState extends State<OrderScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Quantity: ', style: normalText),
+                  Text('Quantity: ', style: normalText),
                   IconButton(
                     onPressed: _quantity > 0
                         ? () => setState(() => _quantity--)
@@ -264,10 +289,21 @@ class _OrderScreenState extends State<OrderScreen> {
                 backgroundColor: Colors.purple,
               ),
               const SizedBox(height: 20),
-              Text(
-                'Cart: ${_cart.countOfItems} items - £${_cart.totalPrice.toStringAsFixed(2)}',
-                style: normalText,
-                textAlign: TextAlign.center,
+StyledButton(
+  onPressed: _navigateToSettings,
+  icon: Icons.settings,
+  label: 'Settings',
+  backgroundColor: Colors.grey,
+),
+              const SizedBox(height: 20),
+              Consumer<Cart>(
+                builder: (context, cart, child) {
+                  return Text(
+                    'Cart: ${cart.countOfItems} items - £${cart.totalPrice.toStringAsFixed(2)}',
+                    style: normalText,
+                    textAlign: TextAlign.center,
+                  );
+                },
               ),
               const SizedBox(height: 20),
             ],
