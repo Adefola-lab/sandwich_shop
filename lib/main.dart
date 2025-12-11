@@ -19,10 +19,27 @@ class App extends StatelessWidget {
       create: (BuildContext context) {
         return Cart();
       },
-      child: const MaterialApp(
+      child: MaterialApp(
         title: 'Sandwich Shop App',
         debugShowCheckedModeBanner: false,
-        home: OrderScreen(maxQuantity: 5),
+        theme: ThemeData(
+          primarySwatch: Colors.orange,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.orange,
+            foregroundColor: Colors.white,
+            elevation: 2,
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              textStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+        home: const OrderScreen(maxQuantity: 5),
       ),
     );
   }

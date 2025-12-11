@@ -26,6 +26,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final int timestamp = currentTime.millisecondsSinceEpoch;
     final String orderId = 'ORD$timestamp';
 
+    // ignore: use_build_context_synchronously
     final Cart cart = Provider.of<Cart>(context, listen: false);
     final Map orderConfirmation = {
       'orderId': orderId,
