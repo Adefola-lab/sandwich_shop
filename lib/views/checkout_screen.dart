@@ -82,7 +82,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           builder: (context, cart, child) {
             List<Widget> columnChildren = [];
 
-            columnChildren.add( Text('Order Summary', style: heading2));
+            columnChildren.add(Text('Order Summary', style: heading2));
             columnChildren.add(const SizedBox(height: 20));
 
             for (MapEntry<Sandwich, int> entry in cart.items.entries) {
