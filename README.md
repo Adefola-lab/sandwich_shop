@@ -1,118 +1,76 @@
-# Sandwich Shop App
+# Sandwich Shop
 
-## Overview
+This is a simple Flutter app that allows users to order sandwiches.
+The app is built using Flutter and Dart, and it is designed primarily to be run in a web
+browser.
 
-A Flutter application enabling sandwich customization and ordering, featuring size selection, bread choices, and quantity management.
+## Install the essential tools
 
-## Features 
+1. **Terminal**:
 
-* 🥪 Size options: six-inch or footlong
-* 🍞 Multiple bread types
-* ✏️ Custom order notes
-* 🔢 Quantity management
-* 📱 Material Design UI
+    - **macOS** – use the built-in Terminal app by pressing **⌘ + Space**, typing **Terminal**, and pressing **Return**.
+    - **Windows** – open the start menu using the **Windows** key. Then enter **cmd** to open the **Command Prompt**. Alternatively, you can use **Windows PowerShell** or **Windows Terminal**.
 
-## Installation
+2. **Git** – verify that you have `git` installed by entering `git --version`, in the terminal.
+    If this is missing, download the installer from [Git's official site](https://git-scm.com/downloads?utm_source=chatgpt.com).
 
-### Prerequisites
+3. **Package managers**:
 
-* Flutter SDK (>=2.17.0)
-* Dart SDK
-* Visual Studio Code or Android Studio
-* Flutter development plugins
+    - **Homebrew** (macOS) – verify that you have `brew` installed with `brew --version`; if missing, follow the instructions on the [Homebrew installation page](https://brew.sh/).
+    - **Chocolatey** (Windows) – verify that you have `choco` installed with `choco --version`; if missing, follow the instructions on the [Chocolatey installation page](https://chocolatey.org/install).
 
-### Setup Steps
+4. **Flutter SDK** – verify that you have `flutter` installed and it is working with `flutter doctor`; if missing, install it using your package manager:
+
+    - **macOS**: `brew install --cask flutter`
+    - **Windows**: `choco install flutter`
+
+5. **Visual Studio Code** – verify that you have `code` installed with `code --version`; if missing, use your package manager to install it:
+
+    - **macOS**: `brew install --cask visual-studio-code`
+    - **Windows**: `choco install vscode`
+
+## Get the code
+
+### If this is your first time working on this project
+
+Enter the following commands in your terminal to clone the repository and
+open it in Visual Studio Code.
+You may want to change directory (`cd`) to the directory where you want to clone the
+repository first.
 
 ```bash
-# Clone repository
-git clone [https://github.com/Adefola-lab/sandwich_shop.git]
+git clone --branch 7 https://github.com/manighahrmani/sandwich_shop
 cd sandwich_shop
+code .
+```
 
-# Install dependencies
+### If you have already cloned the repository
+
+Enter the following commands in your terminal to switch to the correct branch.
+Remember to `cd` to the directory where you cloned the repository first.
+
+```bash
+git fetch origin
+git checkout 7
+```
+
+## Run the app
+
+Open the integrated terminal in Visual Studio Code by first opening the Command
+Palette with **⌘ + Shift + P** (macOS) or **Ctrl + Shift + P** (Windows) and
+typing **Terminal: Create New Terminal** then pressing **Enter**.
+
+In the terminal, run the following commands to install the dependencies and run
+the app in your web browser:
+
+```bash
 flutter pub get
-
-# Run application
 flutter run
 ```
 
-## Usage
+## Get support
 
-### Launch
-1. Open the app to "Sandwich Counter" screen
-
-### Customize Order
-
-1. **Size Selection**
-   * Toggle switch between six-inch and footlong
-
-2. **Bread Selection**
-   * Choose from dropdown menu:
-     * White
-     * Wheat
-     * Wholemeal
-
-3. **Order Details**
-   * Add special instructions in notes field
-   * Manage quantity:
-     * Click "Add" to increase
-     * Click "Remove" to decrease
-     * Maximum limit: 10 sandwiches
-
-## Project Structure
-
-```
-sandwich_shop/
-├── lib/
-│   ├── main.dart           # App entry point
-│   ├── views/
-│   │   └── app_styles.dart # UI styling
-│   └── repositories/
-│       └── order_repository.dart
-├── test/
-│   └── widget_test.dart
-└── pubspec.yaml
-```
-
-## Technical Stack
-
-### Framework & Languages
-* Flutter SDK
-* Dart Programming Language
-
-### Design
-* Material Design Components
-* Custom styling implementation
-
-### Testing
-* Flutter Testing Framework
-* Widget tests included
-
-## Limitations
-
-* Maximum order quantity fixed at 10
-* Limited bread selections available
-* Basic styling implementation
-* No persistent storage
-* Single screen implementation
-
-## Development
-
-### Running Tests
-
-```bash
-flutter test
-```
-
-## Contact
-
-[Adefola Adeoye]  
-[folaoluwaaa@gmail.com]  
-
-
-## License
-
-[License Type] - See LICENSE file for details
-
----
-
-**Note:** Replace all bracketed content `[like this]` with your specific information.
+Use [the dedicated Discord channel](https://discord.com/channels/760155974467059762/1370633732779933806)
+to ask your questions and get help from the community.
+Please provide as much context as possible, including the error messages you are seeing and
+screenshots (you can open Discord in your web browser).

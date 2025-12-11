@@ -1,13 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:sandwich_shop/main.dart';
+import 'package:sandwich_shop/views/order_screen.dart';
 
 void main() {
-  testWidgets('App smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const SandwichShopApp());
-
-    // Verify that the app starts with OrderScreen
-    expect(find.text('Order Your Sandwich'), findsOneWidget);
+  group('App', () {
+    testWidgets('renders OrderScreen as the home screen',
+        (WidgetTester tester) async {
+      const App app = App();
+      await tester.pumpWidget(app);
+      expect(find.byType(OrderScreen), findsOneWidget);
+    });
   });
 }
